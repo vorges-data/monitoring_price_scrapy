@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "price-monitoring"
+version = "0.1.0"
+description = "Projeto de monitoramento de preços do Mercado Livre: Python, Scrapy, Pandas e Streamlit"
+authors = ["Vinicius Borges - Vorges Data"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+scrapy = "^2.11.2"
+pandas = "^2.2.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
