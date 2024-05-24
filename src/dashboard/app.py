@@ -4,9 +4,23 @@ import sqlite3
 import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
+import os
+
+# Diretório atual do projeto
+current_directory = os.getcwd()
+
+# Construir o caminho absoluto para o banco de dados de forma relativa
+df_path = os.path.join(current_directory, '../../data/price_notebooks_ml.db')
+
 
 # Conectar ao banco de dados
-conn = sqlite3.connect('../../data/price_notebooks_ml.db')
+#df_path = '../../data/price_notebooks_ml.db'
+
+# Modificar permissões do arquivo para leitura e escrita
+#os.chmod(df_path, 0o664)
+
+# Conectar ao banco de dados
+conn = sqlite3.connect(df_path)
 
 # Query para buscar os dados
 df = pd.read_sql_query('SELECT * FROM mercadolivre_items', conn)
@@ -41,7 +55,8 @@ ordered_options = [
     'Sem desconto'
 ]
 
-faixa_desconto = st.sidebar.selectbox('Faixa de Desconto', options= ordered_options, index=0, format_func=lambda x: 'Todos' if x == '' else x, help='Selecione a faixa de desconto', key='faixa_desconto')
+faixa_desconto = st.sidebar.selectbox('Faixa de Desconto', options= ordered_options,index=0, format_func=lambda x: 'Todos' if x == '' else x, help='Selecione a faixa de desconto', key='faixa_desconto')
+
 
 # Filtro de search brand
 search_brand = st.sidebar.text_input('Pesquisar notebook', '', help='Digite o nome da marca para pesquisar')
