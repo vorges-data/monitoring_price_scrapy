@@ -24,6 +24,12 @@ conn.close()
 
 # Título do app
 st.title('Pesquisa de Mercado - Preço de Notebooks')
+
+# Informar a data da coleta e atualização
+ultima_coleta = df['_data_coleta'].unique()[0]
+ultima_coleta_formatada = pd.to_datetime(ultima_coleta).strftime('%d/%m/%Y %H:%M:%S')
+st.write(f"Última atualização: {ultima_coleta_formatada}")
+
 st.subheader('Principais KPIs')
 
 # Filtros dinâmicos
