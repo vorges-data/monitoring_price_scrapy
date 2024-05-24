@@ -8,10 +8,7 @@ import os
 
 
 # Conectar ao banco de dados
-df_path = '../../data/price_notebooks_ml.db'
-
-# Modificar permissões do arquivo para leitura e escrita
-os.chmod(df_path, 0o664)
+df_path = 'data/price_notebooks_ml.db'
 
 # Conectar ao banco de dados
 conn = sqlite3.connect(df_path)
