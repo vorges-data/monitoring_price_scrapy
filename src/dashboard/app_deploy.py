@@ -161,7 +161,7 @@ pareto_data.columns = ['marca', 'contagem']
 pareto_data['percentual_acumulado'] = pareto_data['contagem'].cumsum() / pareto_data['contagem'].sum() * 100
 
 fig = px.bar(pareto_data, x='marca', y='contagem', labels={'marca':'Marca', 'contagem':'Contagem'}, color_discrete_sequence=['#83c9ff'])
-fig.add_trace(go.Scatter(x=pareto_data['marca'], y=pareto_data['percentual_acumulado'], mode='lines+markers', name='Percentual Acumulado', yaxis='y2'))
+fig.add_trace(go.Scatter(x=pareto_data['marca'], y=pareto_data['percentual_acumulado'], mode='lines+markers', name='Percentual Acumulado', yaxis='y2', line=dict(color='red')))
 
 fig.update_layout(
     yaxis2=dict(
