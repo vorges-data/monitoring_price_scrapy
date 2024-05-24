@@ -43,11 +43,20 @@ ordered_options = [
 
 faixa_desconto = st.sidebar.selectbox('Faixa de Desconto', options= ordered_options, index=0, format_func=lambda x: 'Todos' if x == '' else x, help='Selecione a faixa de desconto', key='faixa_desconto')
 
+# Filtro de search brand
+search_brand = st.sidebar.text_input('Pesquisar notebook', '', help='Digite o nome da marca para pesquisar')
+
+
 # Aplicar filtros
 df_filtered = df[(df['marca'].isin(marcas)) & 
                  (df['new_price_reais'] >= preco_min) & (df['new_price_reais'] <= preco_max) &
                  (df['reviews_rating_number'] >= avaliacao_min) & (df['reviews_rating_number'] <= avaliacao_max) & 
                  (df['discount_range'] == faixa_desconto)]
+
+# Aplicar filtro de search_brand se fornecido
+if search_brand:
+    df_filtered = df_filtered[df_filtered['brand'].str.contains(search_brand, case=False)]
+
 
 # Configurando o layout em duas linhas
 col1, col2, col3 = st.columns(3)
@@ -170,3 +179,6 @@ st.subheader('Variação dos Preços dos Notebooks por Marca')
 fig = px.box(df_filtered, x='marca', y='new_price_reais', labels={'marca':'Marca', 'new_price_reais':'Preço (R$)'}, color_discrete_sequence=['#83c9ff'])
 st.plotly_chart(fig)
 
+# Tabela com os dados
+st.subheader('Tabela de Dados')
+st.dataframe(df_filtered)
