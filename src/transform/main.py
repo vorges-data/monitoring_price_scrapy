@@ -64,6 +64,30 @@ def extrair_marca(brand_name):
 # Aplicar a função ao DataFrame
 df['marca'] = df['brand'].apply(extrair_marca)
 
+
+# Faixa de desconto
+def categorize_discount(row):
+    if row['discount_percentage'] == 0:
+        return 'Sem desconto'
+    elif 0 < row['discount_percentage'] <= 10:
+        return 'Até 10%'
+    elif 11 <= row['discount_percentage'] <= 20:
+        return '11% a 20%'
+    elif 21 <= row['discount_percentage'] <= 30:
+        return '21% a 30%'
+    elif 31 <= row['discount_percentage'] <= 40:
+        return '31% a 40%'
+    elif 41 <= row['discount_percentage'] <= 50:
+        return '41% a 50%'
+    else:
+        return 'Acima de 50%'
+# Criar a nova coluna com as faixas de desconto
+df['discount_range'] = df.apply(categorize_discount, axis=1)
+
+# Reordenar as colunas
+nova_ordem = ['brand','marca','old_price','new_price_reais','discount_percentage','discount_range','reviews_amount','reviews_rating_number','_source','_data_coleta']
+df = df[nova_ordem]
+
 # Conectar ao banco de dados
 conn = sqlite3.connect('../../data/price_notebooks_ml.db')
 
