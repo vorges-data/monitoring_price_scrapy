@@ -86,7 +86,7 @@ def categorize_discount(row):
 df['discount_range'] = df.apply(categorize_discount, axis=1)
 
 # Reordenar as colunas
-nova_ordem = ['brand','marca','old_price','new_price_reais','discount_percentage','discount_range','reviews_amount','reviews_rating_number','_source','_data_coleta']
+nova_ordem = ['brand','marca','old_price','new_price_reais','discount_percentage','discount_range','reviews_amount','reviews_rating_number','supplier','installments','product_url','img_product_url','_source','_data_coleta']
 df = df[nova_ordem]
 
 # Conectar ao banco de dados
