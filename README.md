@@ -1,3 +1,11 @@
+Acessar App Localmente
+```bash
+git clone https://github.com/vorges-data/monitoring_price_scrapy.git
+pip install -r requirements.txt
+cd src/dashboard
+streamlit run app.py
+```
+
 Para executar o robô scraping
 ```bash
 scrapy crawl mercadolivre -o ../../data/data.jsonl
