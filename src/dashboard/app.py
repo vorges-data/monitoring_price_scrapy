@@ -110,7 +110,7 @@ col6.metric('Preço Máximo', f'R$ {max_price}')
 st.subheader('Marcas mais encontradas')
 col1, col2 = st.columns([4,2])
 top_10_brands_page = df_filtered['marca'].value_counts().sort_values(ascending=False)
-col1.bar_chart(top_10_brands_page)
+col1.bar_chart(top_10_brands_page, color='#83c9ff')
 col2.write(top_10_brands_page)
 
 # Preço médio da marca
@@ -118,7 +118,7 @@ st.subheader('Preço médio por marca')
 col1, col2 = st.columns([4,2])
 df_non_zero = df_filtered[df_filtered['new_price_reais'] > 0]
 avg_price_per_brand = round( df_non_zero.groupby('marca')['new_price_reais'].mean().sort_values(ascending=False), 2)
-col1.bar_chart(avg_price_per_brand)
+col1.bar_chart(avg_price_per_brand, color='#83c9ff')
 col2.write(avg_price_per_brand)
 
 # Satisfação dos clientes
@@ -126,7 +126,7 @@ st.subheader('Satisfação dos clientes')
 col1, col2 = st.columns([4,2])
 df_non_zero = df_filtered[df_filtered['reviews_rating_number'] > 0]
 avg_rating_per_brand = round( df_non_zero.groupby('marca')['reviews_rating_number'].mean().sort_values(ascending=False), 2)
-col1.bar_chart(avg_rating_per_brand)
+col1.bar_chart(avg_rating_per_brand, color='#83c9ff')
 col2.write(avg_rating_per_brand)
 
 # Histograma de preços
