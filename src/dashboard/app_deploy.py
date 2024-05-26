@@ -5,6 +5,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
 import os
+from PIL import Image
 
 
 class PrecoNotebookApp:
@@ -27,6 +28,12 @@ class PrecoNotebookApp:
     def show_title(self):
         # Título do app
         st.title('Pesquisa de Mercado - Preço de Notebooks')
+
+        # Logo Vorges
+        image_logo = Image.open('images/Logo_Preto_Sem_Fundo.png')
+        st.sidebar.image(image_logo, width=180)
+
+        st.sidebar.write('Utilize os filtros para analisar os dados')
         
         # Informar a data da coleta e atualização
         ultima_coleta = self.df['_data_coleta'].unique()[0]
