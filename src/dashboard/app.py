@@ -197,11 +197,77 @@ class PrecoNotebookApp:
         st.subheader('Tabela de Dados')
         st.dataframe(df_filtered)
 
+
+#============================================================================================
+#================================ CARDS ====================================================
+
+
+    def card(self, title, subtitle, rows, size, columns, image_url, owner, created_on):
+        card_html = f"""
+        <div class="card">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="{image_url}" alt="Image" style="width: 190px; height: 190px; border-radius: 50%;"/>
+            </div>
+            <h3 style="color: #007bff; margin-bottom: 10px;">{title}</h3>
+            <p style="color: #6c757d; margin-bottom: 10px;">{subtitle}</p>
+            <p><b>Rows:</b> {rows}</p>
+            <p><b>Size:</b> {size} MB</p>
+            <p><b>Columns:</b> {columns}</p>
+            <p><b>Owner:</b> {owner}</p>
+            <p><b>Created On:</b> {created_on}</p>
+        </div>
+        """
+        return card_html
+    
+
     def run(self):
         self.show_title()
         df_filtered = self.apply_filters()
         self.show_kpis(df_filtered)
         self.show_charts(df_filtered)
+        
+        st.markdown("<h1 style='text-align: center;'>Data Cards</h1>", unsafe_allow_html=True)
+
+        # Flexbox container
+        st.markdown("""
+        <style>
+        .card-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .card {
+            background-color: #f1f1f1;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            box-sizing: border-box;
+            flex: 0 0 300px;
+            margin: 20px 0;
+        }
+        .card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .card h3 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .card p {
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+        </style>
+        <div class="card-container">
+        """ + 
+        self.card("RIDERS", "CITIBIKE_V4_RESET.RESET", "100K", "5.82", "11", "https://http2.mlstatic.com/D_NQ_NP_767320-MLU73183739718_122023-W.webp", "DBA_CITIBIKE", "2022-01-21") +
+        self.card("SPATIAL_DATA", "CITIBIKE_DEV.UTILS", "2.11K", "0.664", "2", "https://via.placeholder.com/100", "DEV_CITIBIKE", "2023-01-23") +
+        self.card("CITIBIKE", "CITIBIKE_V4_RESET.RESET", "100K", "5.82", "11", "https://via.placeholder.com/100", "DBA_CITIBIKE", "2022-01-21") +
+        self.card("CITIBIKE", "CITIBIKE_V4_RESET.RESET", "100K", "5.82", "11", "https://via.placeholder.com/100", "DBA_CITIBIKE", "2022-01-21") +
+        "</div>", unsafe_allow_html=True)
 
 
 if __name__ == '__main__':
