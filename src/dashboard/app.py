@@ -90,16 +90,21 @@ class PrecoNotebookApp:
 
         # Filtro faixa de desconto
         ordered_options = ['Até 10%', '11% a 20%', '21% a 30%', '31% a 40%', '41% a 50%', 'Acima de 50%', 'Sem desconto']
-        faixa_desconto = st.sidebar.selectbox('Faixa de Desconto', options=ordered_options, index=0, format_func=lambda x: 'Todos' if x == '' else x, help='Selecione a faixa de desconto', key='faixa_desconto')
+        faixa_desconto = st.sidebar.multiselect('Faixa de Desconto', options=ordered_options, default=['Até 10%', '11% a 20%', '21% a 30%', '31% a 40%', '41% a 50%', 'Acima de 50%', 'Sem desconto'], help='Selecione a faixa de desconto', key='faixa_desconto')
 
         # Filtro de search brand
         search_brand = st.sidebar.text_input('Pesquisar notebook', '', help='Digite o nome da marca para pesquisar')
 
+
         # Aplicar filtros
         df_filtered = self.df[(self.df['marca'].isin(marcas)) & 
-                              (self.df['new_price_reais'] >= preco_min) & (self.df['new_price_reais'] <= preco_max) &
-                              (self.df['reviews_rating_number'] >= avaliacao_min) & (self.df['reviews_rating_number'] <= avaliacao_max) & 
-                              (self.df['discount_range'] == faixa_desconto)]
+                          (self.df['new_price_reais'] >= preco_min) & (self.df['new_price_reais'] <= preco_max) &
+                          (self.df['reviews_rating_number'] >= avaliacao_min) & (self.df['reviews_rating_number'] <= avaliacao_max)]
+    
+        # Aplicar filtro de faixa de desconto
+        if faixa_desconto:
+            df_filtered = df_filtered[df_filtered['discount_range'].apply(lambda x: x in faixa_desconto)]
+
 
         # Aplicar filtro de search_brand se fornecido
         if search_brand:
@@ -202,19 +207,20 @@ class PrecoNotebookApp:
 #================================ CARDS ====================================================
 
 
-    def card(self, title, subtitle, rows, size, columns, image_url, owner, created_on):
+    def card(self, title, supplier, price, reviews_ratings, reviews_amount, image_url, product_url, installments, source):
         card_html = f"""
         <div class="card">
             <div style="text-align: center; margin-bottom: 20px;">
                 <img src="{image_url}" alt="Image" style="width: 190px; height: 190px; border-radius: 50%;"/>
             </div>
-            <h3 style="color: #007bff; margin-bottom: 10px;">{title}</h3>
-            <p style="color: #6c757d; margin-bottom: 10px;">{subtitle}</p>
-            <p><b>Rows:</b> {rows}</p>
-            <p><b>Size:</b> {size} MB</p>
-            <p><b>Columns:</b> {columns}</p>
-            <p><b>Owner:</b> {owner}</p>
-            <p><b>Created On:</b> {created_on}</p>
+            <h3 style="color: #007bff; margin-bottom: 10px; font-size: 18px;">{title}</h3>
+            <p style="color: #6c757d; margin-bottom: 10px;">Fornecedor: {supplier}</p>
+            <p><b>Preço R$:</b> {price}</p>
+            <p><b>Avaliação:</b> {reviews_ratings}</p>
+            <p><b>Quantidade Avaliações:</b> {reviews_amount}</p>
+            <p><b>Link do Notebook:</b> <a href="{product_url}" target="_blank">Clique aqui</a></p>
+            <p><b>Parcelas</b> {installments}</p>
+            <p><b>Fonte:</b> {source}</p>
         </div>
         """
         return card_html
@@ -226,7 +232,14 @@ class PrecoNotebookApp:
         self.show_kpis(df_filtered)
         self.show_charts(df_filtered)
         
-        st.markdown("<h1 style='text-align: center;'>Data Cards</h1>", unsafe_allow_html=True)
+        st.markdown("<h1 style='text-align: center;'>Principais Notebooks - Melhores Avaliados</h1>", unsafe_allow_html=True)
+
+         # Selecionar os 10 principais notebooks com base em reviews_amount e reviews_rating_number, removendo duplicatas
+        top_notebooks = (df_filtered.sort_values(by=['reviews_amount', 'reviews_rating_number'], ascending=False)
+                                .drop_duplicates(subset=['reviews_amount', 'reviews_rating_number'])
+                                .head(10)
+                                .reset_index(drop=True))
+
 
         # Flexbox container
         st.markdown("""
@@ -263,10 +276,16 @@ class PrecoNotebookApp:
         </style>
         <div class="card-container">
         """ + 
-        self.card("RIDERS", "CITIBIKE_V4_RESET.RESET", "100K", "5.82", "11", "https://http2.mlstatic.com/D_NQ_NP_767320-MLU73183739718_122023-W.webp", "DBA_CITIBIKE", "2022-01-21") +
-        self.card("SPATIAL_DATA", "CITIBIKE_DEV.UTILS", "2.11K", "0.664", "2", "https://via.placeholder.com/100", "DEV_CITIBIKE", "2023-01-23") +
-        self.card("CITIBIKE", "CITIBIKE_V4_RESET.RESET", "100K", "5.82", "11", "https://via.placeholder.com/100", "DBA_CITIBIKE", "2022-01-21") +
-        self.card("CITIBIKE", "CITIBIKE_V4_RESET.RESET", "100K", "5.82", "11", "https://via.placeholder.com/100", "DBA_CITIBIKE", "2022-01-21") +
+        self.card(top_notebooks['brand'][0], top_notebooks['supplier'][0], top_notebooks['new_price_reais'][0], top_notebooks['reviews_rating_number'][0], top_notebooks['reviews_amount'][0], top_notebooks['img_product_url'][0], top_notebooks['product_url'][0], top_notebooks['installments'][0], "Mercado LIvre") +
+        self.card(top_notebooks['brand'][1], top_notebooks['supplier'][1], top_notebooks['new_price_reais'][1], top_notebooks['reviews_rating_number'][1], top_notebooks['reviews_amount'][1], top_notebooks['img_product_url'][1], top_notebooks['product_url'][1], top_notebooks['installments'][1], "Mercado LIvre") +
+        self.card(top_notebooks['brand'][2], top_notebooks['supplier'][2], top_notebooks['new_price_reais'][2], top_notebooks['reviews_rating_number'][2], top_notebooks['reviews_amount'][2], top_notebooks['img_product_url'][2], top_notebooks['product_url'][2], top_notebooks['installments'][2], "Mercado LIvre") +
+        self.card(top_notebooks['brand'][3], top_notebooks['supplier'][3], top_notebooks['new_price_reais'][3], top_notebooks['reviews_rating_number'][3], top_notebooks['reviews_amount'][3], top_notebooks['img_product_url'][3], top_notebooks['product_url'][3], top_notebooks['installments'][3], "Mercado LIvre") +
+        self.card(top_notebooks['brand'][4], top_notebooks['supplier'][4], top_notebooks['new_price_reais'][4], top_notebooks['reviews_rating_number'][4], top_notebooks['reviews_amount'][4], top_notebooks['img_product_url'][4], top_notebooks['product_url'][4], top_notebooks['installments'][4], "Mercado LIvre") +
+        self.card(top_notebooks['brand'][5], top_notebooks['supplier'][5], top_notebooks['new_price_reais'][5], top_notebooks['reviews_rating_number'][5], top_notebooks['reviews_amount'][5], top_notebooks['img_product_url'][5], top_notebooks['product_url'][5], top_notebooks['installments'][5], "Mercado LIvre") +
+        self.card(top_notebooks['brand'][6], top_notebooks['supplier'][6], top_notebooks['new_price_reais'][6], top_notebooks['reviews_rating_number'][6], top_notebooks['reviews_amount'][6], top_notebooks['img_product_url'][6], top_notebooks['product_url'][6], top_notebooks['installments'][6], "Mercado LIvre") +
+        self.card(top_notebooks['brand'][7], top_notebooks['supplier'][7], top_notebooks['new_price_reais'][7], top_notebooks['reviews_rating_number'][7], top_notebooks['reviews_amount'][7], top_notebooks['img_product_url'][7], top_notebooks['product_url'][7], top_notebooks['installments'][7], "Mercado LIvre") +
+        self.card(top_notebooks['brand'][8], top_notebooks['supplier'][9], top_notebooks['new_price_reais'][8], top_notebooks['reviews_rating_number'][8], top_notebooks['reviews_amount'][8], top_notebooks['img_product_url'][8], top_notebooks['product_url'][8], top_notebooks['installments'][8], "Mercado LIvre") +
+        self.card(top_notebooks['brand'][9], top_notebooks['supplier'][9], top_notebooks['new_price_reais'][9], top_notebooks['reviews_rating_number'][9], top_notebooks['reviews_amount'][9], top_notebooks['img_product_url'][9], top_notebooks['product_url'][9], top_notebooks['installments'][9], "Mercado LIvre") +
         "</div>", unsafe_allow_html=True)
 
 
