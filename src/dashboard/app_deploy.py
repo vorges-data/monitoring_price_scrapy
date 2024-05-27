@@ -237,7 +237,7 @@ class PrecoNotebookApp:
          # Selecionar os 10 principais notebooks com base em reviews_amount e reviews_rating_number, removendo duplicatas
         top_notebooks = (df_filtered.sort_values(by=['reviews_amount', 'reviews_rating_number'], ascending=False)
                                 .drop_duplicates(subset=['reviews_amount', 'reviews_rating_number'])
-                                .head(10)
+                                .head(12)
                                 .reset_index(drop=True))
 
 
@@ -286,6 +286,8 @@ class PrecoNotebookApp:
         self.card(top_notebooks['brand'][7], top_notebooks['supplier'][7], top_notebooks['new_price_reais'][7], top_notebooks['reviews_rating_number'][7], top_notebooks['reviews_amount'][7], top_notebooks['img_product_url'][7], top_notebooks['product_url'][7], top_notebooks['installments'][7], "Mercado LIvre") +
         self.card(top_notebooks['brand'][8], top_notebooks['supplier'][9], top_notebooks['new_price_reais'][8], top_notebooks['reviews_rating_number'][8], top_notebooks['reviews_amount'][8], top_notebooks['img_product_url'][8], top_notebooks['product_url'][8], top_notebooks['installments'][8], "Mercado LIvre") +
         self.card(top_notebooks['brand'][9], top_notebooks['supplier'][9], top_notebooks['new_price_reais'][9], top_notebooks['reviews_rating_number'][9], top_notebooks['reviews_amount'][9], top_notebooks['img_product_url'][9], top_notebooks['product_url'][9], top_notebooks['installments'][9], "Mercado LIvre") +
+        self.card(top_notebooks['brand'][10], top_notebooks['supplier'][10], top_notebooks['new_price_reais'][10], top_notebooks['reviews_rating_number'][10], top_notebooks['reviews_amount'][10], top_notebooks['img_product_url'][10], top_notebooks['product_url'][10], top_notebooks['installments'][10], "Mercado LIvre") +
+        self.card(top_notebooks['brand'][11], top_notebooks['supplier'][11], top_notebooks['new_price_reais'][11], top_notebooks['reviews_rating_number'][11], top_notebooks['reviews_amount'][11], top_notebooks['img_product_url'][11], top_notebooks['product_url'][11], top_notebooks['installments'][11], "Mercado LIvre") +
         "</div>", unsafe_allow_html=True)
 
 
