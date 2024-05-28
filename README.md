@@ -79,6 +79,6 @@ python src/transform/run_transformation.py
 streamlit run monitoramento_preco/run Home.py
 ```
 
-Para acessar o Webapp, [clique aqui!](https://vorges-data-monitoring-price-laptop.streamlit.app/)
+Para acessar o Webapp, [clique aqui!](https://vorges-data-monitoring-price.streamlit.app/)
 
 
