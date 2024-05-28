@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '0 3 * * 1'  # Executa toda segunda-feira às 3 AM UTC
   workflow_dispatch:  # Permite execução manual
-  
+
 jobs:
   update-etl:
     runs-on: ubuntu-latest
@@ -30,8 +30,8 @@ jobs:
 
       - name: Transform Data
         run: |
-          cd src/transform
-          python run_transformation.py
+          cd ../..
+          python src/transform/run_transformation.py
 
       - name: Run Streamlit App
         run: |
