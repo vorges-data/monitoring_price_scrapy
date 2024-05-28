@@ -30,9 +30,10 @@ jobs:
 
       - name: Transform Data
         run: |
-          cd ../..
-          python src/transform/run_transformation.py
+          cd ../transform
+          python run_transformation.py
 
       - name: Run Streamlit App
         run: |
+          cd ../../
           nohup streamlit run Home.py &  # Executa o Streamlit em segundo plano
