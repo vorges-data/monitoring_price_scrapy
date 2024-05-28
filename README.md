@@ -76,7 +76,7 @@ python src/transform/run_transformation.py
 
 6. Para iniciar o Dashboard Streamlit:
 ```bash
-streamlit run monitoramento_preco/run Home.py
+streamlit run Home.py
 ```
 
 Para acessar o Webapp, [clique aqui!](https://vorges-data-monitoring-price.streamlit.app/)
