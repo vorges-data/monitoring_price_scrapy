@@ -41,4 +41,4 @@ jobs:
           git config --global user.email 'vinicius.jborges36@gmail.com'
           git add data/price_notebooks_ml.db
           git commit -m "Update database with new data from workflow run"
-          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:main
+          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:master
