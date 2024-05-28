@@ -26,7 +26,7 @@ st.markdown(
         - Avaliações médias por tipo de notebook
         - Comparação de preços e avaliações
 
-    - **Cards Notebooks:** 12 principais notebooks em nota de avaliação e quantidade de avaliações na plataforma;
+    - **Cards Notebooks:** 20 principais notebooks em nota de avaliação e quantidade de avaliações na plataforma;
     
     
     Portanto, acesse o menu lateral e escolha a página que gostaria de visualizar!
