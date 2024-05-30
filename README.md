@@ -1,6 +1,8 @@
 
 # Projeto de WebScraping - Análise de Preços de Notebooks do Mercado Livre
 
+![](images/diagrama_arquitetura.png)
+
 ## Como utilizar este Dashboard?
 
 No menu lateral deste Web App, há duas páginas:
