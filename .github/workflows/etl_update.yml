@@ -2,7 +2,7 @@ name: Weekly ETL Update
 
 on:
   schedule:
-    - cron: '0 3 * * 1'  # Executa toda segunda-feira às 3 AM UTC
+    - cron: "0 9 * * *" 
   workflow_dispatch:  # Permite execução manual
 
 jobs:
